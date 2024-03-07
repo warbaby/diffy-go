@@ -127,9 +127,13 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 		numMatch++
 	} else {
 		log.Println("[result]", "[diff]", "MISMATCH", r.URL.Path, r.URL.RawQuery)
-		//log.Println("[debug]", "[primary]", string(respA))
-		//log.Println("[debug]", "[candidate]", string(respB))
 		log.Println("[detail]", diffstr)
+		if match == jsondiff.BothArgsAreInvalidJson || match == jsondiff.FirstArgIsInvalidJson {
+			log.Println("[detail]", "[primary]", string(respA))
+		}
+		if match == jsondiff.BothArgsAreInvalidJson || match == jsondiff.SecondArgIsInvalidJson {
+			log.Println("[detail]", "[candidate]", string(respB))
+		}
 		numDiff++
 	}
 
