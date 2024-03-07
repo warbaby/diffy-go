@@ -73,6 +73,10 @@ func showResult(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleRequest(w http.ResponseWriter, r *http.Request) {
+	if r.RequestURI == "/" || r.RequestURI == "" {
+		showResult(w, r)
+		return
+	}
 
 	// Perform requests to backend servers concurrently
 	var wg sync.WaitGroup
@@ -151,7 +155,7 @@ func doRequest(backend string, r *http.Request) ([]byte, error) {
 	defer resp.Body.Close()
 
 	if resp.StatusCode != 200 {
-		return nil, fmt.Errorf("status : 200")
+		return nil, fmt.Errorf("status: %d", resp.StatusCode)
 	}
 
 	// Read the response body
