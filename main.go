@@ -83,6 +83,9 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 	var respA, respB []byte
 	var errA, errB error
 
+	r.Header.Del("Accept")
+	r.Header.Del("Accept-Encoding")
+
 	wg.Add(2)
 	go func() {
 		defer wg.Done()
